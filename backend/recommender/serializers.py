@@ -8,7 +8,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email']
 
-
 # 2️⃣ Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -26,23 +25,21 @@ class RegisterSerializer(serializers.ModelSerializer):
         UserProfile.objects.create(user=user)
         return user
 
-
 # 3️⃣ Movie Serializer
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = '__all__'
 
-
-# 4️⃣ Rating Serializer
+# 4️⃣ Rating Serializer (Consolidated and Corrected)
 class RatingSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     movie = MovieSerializer(read_only=True)
+    rated_at = serializers.DateTimeField(format="%Y-%m-%d", read_only=True)
 
     class Meta:
         model = Rating
-        fields = '__all__'
-
+        fields = ['user', 'movie', 'rating', 'rated_at']
 
 # 5️⃣ Watchlist Serializer
 class WatchlistSerializer(serializers.ModelSerializer):
@@ -51,7 +48,6 @@ class WatchlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = WatchlistItem
         fields = '__all__'
-
 
 # 6️⃣ Feedback Serializer
 class FeedbackSerializer(serializers.ModelSerializer):

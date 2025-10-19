@@ -148,7 +148,7 @@ REST_FRAMEWORK = {
 }
 
 
-
+CORS_ALLOW_CREDENTIALS = True
 
 # For local dev only — adjust or use environment variables for production
 CORS_ALLOWED_ORIGINS = [
@@ -158,3 +158,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
+from datetime import timedelta
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}

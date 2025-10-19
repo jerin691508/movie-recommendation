@@ -1,21 +1,29 @@
 from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views
 
 urlpatterns = [
+    # Auth
     path('register/', views.RegisterView.as_view(), name='register'),
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('movies/', views.MovieListView.as_view(), name='movies'),
+    # User
+    path('user/profile/', views.UserProfileView.as_view(), name='user-profile'),
+    path('user/history/', views.UserHistoryView.as_view(), name='user-history'),
+
+    # Movies
+    path('movies/', views.MovieListView.as_view(), name='movie-list'),
     path('movie/<int:pk>/', views.MovieDetailView.as_view(), name='movie-detail'),
-    path('movie/<int:id>/rate/', views.rate_movie, name='rate-movie'),
+    path('movie/<int:pk>/rate/', views.RateMovieView.as_view(), name='rate-movie'),
+    path('search/', views.SearchView.as_view(), name='search'),
 
-    path('recommendations/', views.get_recommendations, name='recommendations'),
-    path('search/', views.search_movies, name='search'),
+    # Watchlist
+    path('user/watchlist/', views.WatchlistView.as_view(), name='user-watchlist'),
 
-    path('user/watchlist/', views.get_watchlist, name='get-watchlist'),
-    path('user/watchlist/add/<int:id>/', views.add_to_watchlist, name='add-watchlist'),
-    path('user/watchlist/remove/<int:id>/', views.remove_from_watchlist, name='remove-watchlist'),
+    # Feedback
+    path('feedback/', views.FeedbackView.as_view(), name='feedback'),
 
-    path('feedback/', views.send_feedback, name='feedback'),
+    # Recommendations
+    path('recommendations/', views.RecommendationView.as_view(), name='recommendations'),
 ]
